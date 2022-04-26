@@ -17,3 +17,34 @@ recept-hodnoceni, recept-nazev, recept-popis.
 
 6) Poslední vybraný recept ulož do Local Storage, aby se při novém otevření aplikace načetl.
 */
+
+console.log(recepty);
+// výpis receptů v levém menu
+
+for (let i in recepty) {
+    let vypisReceptu = document.querySelector('#recepty');
+    
+    let polozkaRecept = document.createElement('div');
+    
+    polozkaRecept.classList.add('recept');
+    
+    let polozkaObrazek = document.createElement('img');
+
+    polozkaObrazek.classList.add('recept-obrazek');
+    polozkaObrazek.setAttribute('src', recepty[i].img);
+    polozkaRecept.appendChild(polozkaObrazek);
+
+    let receptInfo = document.createElement('div');
+    receptInfo.classList.add('recept-info');
+        let receptNadpis = document.createElement('h3');
+        receptNadpis.textContent = recepty[i].nadpis;
+        receptInfo.appendChild(receptNadpis);
+    polozkaRecept.appendChild(receptInfo);
+
+    vypisReceptu.appendChild(polozkaRecept);
+
+    
+        
+
+
+}
