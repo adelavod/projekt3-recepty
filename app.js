@@ -32,6 +32,8 @@ for (let i in recepty) {
     
     polozkaRecept.classList.add('recept');
     
+    
+    
     let polozkaObrazek = document.createElement('img');
 
     polozkaObrazek.classList.add('recept-obrazek');
@@ -45,10 +47,38 @@ for (let i in recepty) {
         receptInfo.appendChild(receptNadpis);
     polozkaRecept.appendChild(receptInfo);
 
+    //přidá dataset do všech prvků položky receptu => odešle identifikaci receptu
+    polozkaRecept.dataset.index=i;
+    polozkaObrazek.dataset.index=i;
+    receptInfo.dataset.index=i;
+    receptNadpis.dataset.index=i;
+
+    // přidá eventListener
+    polozkaRecept.addEventListener('click', (e)=> {
+
+    /* zobrazDetail(); */
+    let fotoDetail = document.querySelector('#recept-foto');
+    fotoDetail.setAttribute('src', recepty[i].img);
+    let receptKategorie = document.querySelector('#recept-kategorie');
+    receptKategorie.innerHTML = recepty[i].kategorie;
+    let receptHodnoceni = document.querySelector('#recept-hodnoceni');
+    receptHodnoceni.innerHTML = recepty[i].hodnoceni;
+    let receptNazev = document.querySelector('#recept-nazev');
+    receptNazev.innerHTML = recepty[i].nadpis;
+    let receptPopis = document.querySelector('#recept-popis');
+    receptPopis.innerHTML = recepty[i].popis;
+    });
+
+
+
     vypisReceptu.appendChild(polozkaRecept);
 
 };
-}
+};
+// funkce ZOBRAZ DETAIL
+/* function zobrazDetail() {
+
+} */
 
 //vymaž recepty
 function vymazRecepty(pocet){
@@ -81,16 +111,28 @@ function hledejRecepty() {
 // funkce FILTROVAT
 function filter() {
     let kategorie = document.querySelector('#kategorie').value;
-    console.log(kategorie);
+  
     let filtrovaneRecepty = recepty.filter(filtrujKat);
     function filtrujKat(recept){return recept.kategorie == kategorie};
 
-    /* vymazRecepty(Object.keys(filtrovaneRecepty).length) */;
     let pocet = document.querySelectorAll('.recept').length;
     vymazRecepty(pocet);
     vypisRecepty(filtrovaneRecepty);
+zobrazeneRecepty=filtrovaneRecepty;
+};
 
-    console.log(filtrovaneRecepty);
-    console.log(zobrazeneRecepty);
-    console.log(pocet);
+// funkce SEŘADIT
+function seradRecepty() {
+    let jakSeradit = document.querySelector('#razeni').value;
+
+    let serazeneRecepty = zobrazeneRecepty.sort((a,b)=> {
+        if (jakSeradit == 1){return b.hodnoceni - a.hodnoceni}
+        else {return a.hodnoceni - b.hodnoceni};
+   
+    });
+   
+    let pocet = document.querySelectorAll('.recept').length;
+    vymazRecepty(pocet);
+    vypisRecepty(serazeneRecepty);
 }
+

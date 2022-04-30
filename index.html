@@ -43,7 +43,7 @@
             <div class="razeni">
                 
                 <label for="razeni">Seřadit</label>
-                <select id="razeni">
+                <select id="razeni" onchange="seradRecepty()">
                     <option value=""></option>
                     <option value="1">Od nejlepších</option>
                     <option value="2">Od nejhorších</option>
@@ -54,22 +54,12 @@
 
 
         <div id="recepty" class="recepty">
-            <!--
-            <div class="recept">
-                <div class="recept-obrazek">
-                    <img src="https://ms2.ostium.cz/instance/web-recepty/j1cFHt79/h389w574t.jpg" alt="Obrazek">
-                </div>
-
-                <div class="recept-info">
-                    <h3>Halloumi z grilu na salátu</h3>
-                </div>
-            </div>
-            -->
+            
         </div>
 
         <div class="recept-detail">
             <div class="recept-detail-obrazek">
-                    <img id="recept-foto" src="sem-doplnit-adresu-obrazku.jpg" alt="">
+                    <img id="recept-foto" src="images/spaghetti.jpg" alt="">
             </div>
 
             <div class="recept-detail-info">
@@ -84,7 +74,7 @@
                     </div>
                 </header>
 
-                <h1 id="recept-nazev"><!-- sem se bude doplňovat --></h1>
+                <h1 id="recept-nazev">Vyberte z menu nějaký recept!</h1>
 
                 <p id="recept-popis"><!-- sem se bude doplňovat --></p>
             </div>
