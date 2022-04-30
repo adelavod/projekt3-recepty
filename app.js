@@ -51,14 +51,14 @@ for (let i in recepty) {
 }
 
 //vymaž recepty
-function vymazRecepty(){
+function vymazRecepty(pocet){
     
     let menu = document.querySelector('#recepty');
     let recept = document.querySelectorAll('.recept');
     let receptObrazek = document.querySelectorAll('.recept-obrazek');
     let receptInfo = document.querySelectorAll('.recept-info');
 
-    for (let i=0; i<Object.keys(zobrazeneRecepty).length;i++) {
+    for (let i=0; i<pocet;i++) {
         recept[i].removeChild(receptObrazek[i]);
         recept[i].removeChild(receptInfo[i]);
         menu.removeChild(recept[i]);
@@ -69,10 +69,11 @@ function hledejRecepty() {
     let hledanyText = document.querySelector('#hledat').value;
 
     let hledaneRecepty = recepty.filter(function(recept) {
-    return recept.nadpis.includes(hledanyText);
+    return recept.nadpis.toLowerCase().includes(hledanyText);
     }
     );
-    vymazRecepty();
+    let pocet = document.querySelectorAll('.recept').length;
+    vymazRecepty(pocet);
     vypisRecepty(hledaneRecepty);
     zobrazeneRecepty=hledaneRecepty;
 };
@@ -84,10 +85,12 @@ function filter() {
     let filtrovaneRecepty = recepty.filter(filtrujKat);
     function filtrujKat(recept){return recept.kategorie == kategorie};
 
-    zobrazeneRecepty = filtrovaneRecepty;
-    vymazRecepty();
-
+    /* vymazRecepty(Object.keys(filtrovaneRecepty).length) */;
+    let pocet = document.querySelectorAll('.recept').length;
+    vymazRecepty(pocet);
     vypisRecepty(filtrovaneRecepty);
+
     console.log(filtrovaneRecepty);
     console.log(zobrazeneRecepty);
+    console.log(pocet);
 }
