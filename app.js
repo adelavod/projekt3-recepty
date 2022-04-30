@@ -18,147 +18,126 @@ recept-hodnoceni, recept-nazev, recept-popis.
 6) Poslední vybraný recept ulož do Local Storage, aby se při novém otevření aplikace načetl.
 */
 
-
-// zobrazí na začátek všechny recepty
-
-
-let fotoDetail = document.querySelector('#recept-foto');
-let receptKategorie = document.querySelector('#recept-kategorie');
-let receptHodnoceni = document.querySelector('#recept-hodnoceni');
-let receptNazev = document.querySelector('#recept-nazev');
-let receptPopis = document.querySelector('#recept-popis');
+let fotoDetail = document.querySelector("#recept-foto");
+let receptKategorie = document.querySelector("#recept-kategorie");
+let receptHodnoceni = document.querySelector("#recept-hodnoceni");
+let receptNazev = document.querySelector("#recept-nazev");
+let receptPopis = document.querySelector("#recept-popis");
 
 let zobrazeneRecepty = recepty;
 
 vypisRecepty(recepty);
 
+// podívá se do localStorage pro naposledy otevřený recept
+if (typeof localStorage.posledniRecept === "undefined") {
+  console.log("Nebyl zvolen recept");
+} else {    // a kdyžtak ho vypíše do detailu:
+  let posledniRecept = JSON.parse(localStorage.posledniRecept);
 
-if (typeof localStorage.posledniRecept === 'undefined'){
-    console.log("Nebyl zvolen recept")
-} else
-
-{let posledniRecept = JSON.parse(localStorage.posledniRecept);
-
-fotoDetail.setAttribute('src', posledniRecept.img);
-receptKategorie.innerHTML = posledniRecept.kategorie;
-receptHodnoceni.innerHTML = posledniRecept.hodnoceni;
-receptNazev.innerHTML = posledniRecept.nadpis;
-receptPopis.innerHTML = posledniRecept.popis;
-};
-
+  fotoDetail.setAttribute("src", posledniRecept.img);
+  receptKategorie.innerHTML = posledniRecept.kategorie;
+  receptHodnoceni.innerHTML = posledniRecept.hodnoceni;
+  receptNazev.innerHTML = posledniRecept.nadpis;
+  receptPopis.innerHTML = posledniRecept.popis;
+}
 
 //vypise recepty do leveho menu
-function vypisRecepty (recepty){
-for (let i in recepty) {
-    let vypisReceptu = document.querySelector('#recepty');
+function vypisRecepty(recepty) {
+  for (let i in recepty) {
+    let vypisReceptu = document.querySelector("#recepty");
+    let polozkaRecept = document.createElement("div");
     
-    let polozkaRecept = document.createElement('div');
-    
-    polozkaRecept.classList.add('recept');
-    
-    let polozkaObrazek = document.createElement('img');
+    polozkaRecept.classList.add("recept");
 
-    polozkaObrazek.classList.add('recept-obrazek');
-    polozkaObrazek.setAttribute('src', recepty[i].img);
+    let polozkaObrazek = document.createElement("img");
+
+    polozkaObrazek.classList.add("recept-obrazek");
+    polozkaObrazek.setAttribute("src", recepty[i].img);
     polozkaRecept.appendChild(polozkaObrazek);
 
-    let receptInfo = document.createElement('div');
-    receptInfo.classList.add('recept-info');
-        let receptNadpis = document.createElement('h3');
-        receptNadpis.textContent = recepty[i].nadpis;
-        receptInfo.appendChild(receptNadpis);
+    let receptInfo = document.createElement("div");
+    receptInfo.classList.add("recept-info");
+    let receptNadpis = document.createElement("h3");
+    receptNadpis.textContent = recepty[i].nadpis;
+    receptInfo.appendChild(receptNadpis);
     polozkaRecept.appendChild(receptInfo);
 
     //přidá dataset do všech prvků položky receptu => odešle identifikaci receptu
-    polozkaRecept.dataset.index=i;
-    polozkaObrazek.dataset.index=i;
-    receptInfo.dataset.index=i;
-    receptNadpis.dataset.index=i;
+    polozkaRecept.dataset.index = i;
+    polozkaObrazek.dataset.index = i;
+    receptInfo.dataset.index = i;
+    receptNadpis.dataset.index = i;
 
-    // přidá eventListener
-    polozkaRecept.addEventListener('click', (e)=> {
-
-zobrazDetail(recepty, i);
-    stringifiedUlozenyRecept = JSON.stringify(recepty[i]);
-    localStorage.posledniRecept = stringifiedUlozenyRecept;
-
-    console.log(stringifiedUlozenyRecept);
+    // přidá eventListener na klik do menu receptů
+    polozkaRecept.addEventListener("click", (e) => {
+      zobrazDetail(recepty, i);
+      stringifiedUlozenyRecept = JSON.stringify(recepty[i]);
+      localStorage.posledniRecept = stringifiedUlozenyRecept;
     });
 
     vypisReceptu.appendChild(polozkaRecept);
-
-};
-};
+  }
+}
 // funkce ZOBRAZ DETAIL
 function zobrazDetail(objekt, i) {
-let fotoDetail = document.querySelector('#recept-foto');
-    fotoDetail.setAttribute('src', objekt[i].img);
-    let receptKategorie = document.querySelector('#recept-kategorie');
+    fotoDetail.setAttribute("src", objekt[i].img);
     receptKategorie.innerHTML = objekt[i].kategorie;
-    let receptHodnoceni = document.querySelector('#recept-hodnoceni');
     receptHodnoceni.innerHTML = objekt[i].hodnoceni;
-    let receptNazev = document.querySelector('#recept-nazev');
     receptNazev.innerHTML = objekt[i].nadpis;
-    let receptPopis = document.querySelector('#recept-popis');
     receptPopis.innerHTML = objekt[i].popis;
-
-
 }
 
 //vymaž recepty
-function vymazRecepty(pocet){
-    
-    let menu = document.querySelector('#recepty');
-    let recept = document.querySelectorAll('.recept');
-    let receptObrazek = document.querySelectorAll('.recept-obrazek');
-    let receptInfo = document.querySelectorAll('.recept-info');
-    
-
-    for (let i=0; i<pocet;i++) {
-        recept[i].removeChild(receptObrazek[i]);
-        recept[i].removeChild(receptInfo[i]);
-        menu.removeChild(recept[i]);
-}}
+function vymazRecepty() {
+  let menu = document.querySelector("#recepty");
+  let recept = document.querySelectorAll(".recept");
+  let receptObrazek = document.querySelectorAll(".recept-obrazek");
+  let receptInfo = document.querySelectorAll(".recept-info");
+    // zkontroluje, kolik jich tam je a všechny vymaže
+  let pocet = document.querySelectorAll(".recept").length;
+  for (let i = 0; i < pocet; i++) {
+    recept[i].removeChild(receptObrazek[i]);
+    recept[i].removeChild(receptInfo[i]);
+    menu.removeChild(recept[i]);
+  }
+}
 
 // funkce HLEDÁNÍ
 function hledejRecepty() {
-    let hledanyText = document.querySelector('#hledat').value;
-
-    let hledaneRecepty = recepty.filter(function(recept) {
+  let hledanyText = document.querySelector("#hledat").value;
+  let hledaneRecepty = recepty.filter(function (recept) {
     return recept.nadpis.toLowerCase().includes(hledanyText);
-    }
-    );
-    let pocet = document.querySelectorAll('.recept').length;
-    vymazRecepty(pocet);
-    vypisRecepty(hledaneRecepty);
-    zobrazeneRecepty=hledaneRecepty;
-};
+  });
+  vymazRecepty();
+  vypisRecepty(hledaneRecepty);
+  zobrazeneRecepty = hledaneRecepty;
+}
 
 // funkce FILTROVAT
 function filter() {
-    let kategorie = document.querySelector('#kategorie').value;
-  
-    let filtrovaneRecepty = recepty.filter(filtrujKat);
-    function filtrujKat(recept){return recept.kategorie == kategorie};
+  let kategorie = document.querySelector("#kategorie").value;
+  let filtrovaneRecepty = recepty.filter(filtrujKat);
+  function filtrujKat(recept) {
+    return recept.kategorie == kategorie;
+  }
 
-    let pocet = document.querySelectorAll('.recept').length;
-    vymazRecepty(pocet);
-    vypisRecepty(filtrovaneRecepty);
-zobrazeneRecepty=filtrovaneRecepty;
-};
+  vymazRecepty();
+  vypisRecepty(filtrovaneRecepty);
+  zobrazeneRecepty = filtrovaneRecepty;
+}
 
 // funkce SEŘADIT
 function seradRecepty() {
-    let jakSeradit = document.querySelector('#razeni').value;
+  let jakSeradit = document.querySelector("#razeni").value;
 
-    let serazeneRecepty = zobrazeneRecepty.sort((a,b)=> {
-        if (jakSeradit == 1){return b.hodnoceni - a.hodnoceni}
-        else {return a.hodnoceni - b.hodnoceni};
-   
-    });
-   
-    let pocet = document.querySelectorAll('.recept').length;
-    vymazRecepty(pocet);
-    vypisRecepty(serazeneRecepty);
+  let serazeneRecepty = zobrazeneRecepty.sort((a, b) => {
+    if (jakSeradit == 1) {
+      return b.hodnoceni - a.hodnoceni;
+    } else {
+      return a.hodnoceni - b.hodnoceni;
+    }
+  });
+
+  vymazRecepty();
+  vypisRecepty(serazeneRecepty);
 }
-
