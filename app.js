@@ -18,12 +18,12 @@ recept-hodnoceni, recept-nazev, recept-popis.
 6) Poslední vybraný recept ulož do Local Storage, aby se při novém otevření aplikace načetl.
 */
 
-// výpis receptů v levém menu
 
+// zobrazí na začátek všechny recepty
 let zobrazeneRecepty = recepty;
-
 vypisRecepty(recepty);
 
+//vypise recepty do leveho menu
 function vypisRecepty (recepty){
 for (let i in recepty) {
     let vypisReceptu = document.querySelector('#recepty');
@@ -52,32 +52,42 @@ for (let i in recepty) {
 
 //vymaž recepty
 function vymazRecepty(){
+    
     let menu = document.querySelector('#recepty');
     let recept = document.querySelectorAll('.recept');
     let receptObrazek = document.querySelectorAll('.recept-obrazek');
     let receptInfo = document.querySelectorAll('.recept-info');
 
-for (let i=0; i<Object.keys(zobrazeneRecepty).length;i++) {
-
-
-recept[i].removeChild(receptObrazek[i]);
-recept[i].removeChild(receptInfo[i]);
-menu.removeChild(recept[i]);
-  
-
+    for (let i=0; i<Object.keys(zobrazeneRecepty).length;i++) {
+        recept[i].removeChild(receptObrazek[i]);
+        recept[i].removeChild(receptInfo[i]);
+        menu.removeChild(recept[i]);
 }}
 
-
+// funkce HLEDÁNÍ
 function hledejRecepty() {
-let hledanyText = document.querySelector('#hledat').value;
+    let hledanyText = document.querySelector('#hledat').value;
 
-let hledaneRecepty = recepty.filter(function(recept) {
+    let hledaneRecepty = recepty.filter(function(recept) {
     return recept.nadpis.includes(hledanyText);
-});
-
-
-vymazRecepty();
-vypisRecepty(hledaneRecepty);
-zobrazeneRecepty=hledaneRecepty;
+    }
+    );
+    vymazRecepty();
+    vypisRecepty(hledaneRecepty);
+    zobrazeneRecepty=hledaneRecepty;
 };
 
+// funkce FILTROVAT
+function filter() {
+    let kategorie = document.querySelector('#kategorie').value;
+    console.log(kategorie);
+    let filtrovaneRecepty = recepty.filter(filtrujKat);
+    function filtrujKat(recept){return recept.kategorie == kategorie};
+
+    zobrazeneRecepty = filtrovaneRecepty;
+    vymazRecepty();
+
+    vypisRecepty(filtrovaneRecepty);
+    console.log(filtrovaneRecepty);
+    console.log(zobrazeneRecepty);
+}
