@@ -9,3 +9,5 @@ Zadání
 - Zbytek zadání projektu je dostupný v souboru `app.js`.
 - Během práce můžeš libovolně upravovat CSS, HTML i JS, přejmenovávat soubory, vytvářet nové a nepotřebné mazat. Je to čistě na tobě. :-)
 - Svoji práci vhodně strukturuj a efektivně využívej Git.
+
+Dělám změny, dělám vlny
