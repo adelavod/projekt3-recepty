@@ -11,3 +11,5 @@ Zadání
 - Svoji práci vhodně strukturuj a efektivně využívej Git.
 
 Dělám změny, dělám vlny
+
+Ještě změny
